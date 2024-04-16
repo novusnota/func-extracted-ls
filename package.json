@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "func-extracted-ls",
+  "version": "0.1.0",
+  "description": "Extracted and repackaged FunC language server (LS) from the official VSCode extension for FunC",
+  "author": "Novus Nota (https://github.com/novusnota)",
+  "license": "MIT",
+  "homepage": "https://github.com/novusnota/func-extracted-ls#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/novusnota/func-extracted-ls.git"
+  },
+  "bugs": {
+    "url": "https://github.com/novusnota/func-extracted-ls/issues"
+  },
+  "keywords": [
+    "ton",
+    "the-open-network",
+    "blockchain",
+    "cryptocurrency",
+    "lsp",
+    "lsp-server",
+    "language-server",
+    "func",
+    "func-extracted-ls",
+    "func-lang"
+  ],
+  "bin": {
+    "func-extracted-ls": "bin/bundle.js"
+  },
+  "files": [
+    "bin/",
+    "lib/"
+  ],
+  "devDependencies": {
+    "@ast-grep/cli": "^0.20.5",
+    "esbuild": "^0.20.2",
+    "zx": "^8.0.1"
+  },
+  "scripts": {
+    "esbuild": "esbuild",
+    "sg": "ast-grep"
+  },
+  "packageManager": "yarn@1.22.22"
+}

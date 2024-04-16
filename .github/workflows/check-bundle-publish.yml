@@ -1,0 +1,65 @@
+name: Check for updates, Bundle and Publish new release
+
+on:
+  schedule:
+    - cron: "0 10 * * *" # every day at 10:00 UTC
+
+env:
+  REPO: 'https://github.com/ton-community/vscode-func'
+
+jobs:
+  check:
+    name: Check if update is needed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for new releases of vscode-func
+        run: |
+          FETCHED_HASH="$(git ls-remote "$REPO" HEAD | cut -f 1 | tr -d ' \n\r\t')"
+          if [ -z "$FETCHED_HASH" ] || [ "${#FETCHED_HASH}" -ne 40 ];
+          then echo "Hash is either empty or of incorrect length"; exit 1
+          fi
+          # LAST_HASH="${{ vars.LAST_HASH }}"
+          if [ "$FETCHED_HASH" == "$LAST_HASH" ];
+          then false # TODO: proper skip, which won't fail
+          else echo "LAST_HASH=$FETCHED_HASH" >> "$GITHUB_ENV"
+          fi
+
+  bundle-publish:
+    name: Extract and bundle the language server, then publish it
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: Setup Node.js with Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+          cache: yarn
+          registry: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Clone and compile
+        run: |
+          git clone "$REPO" extension
+          cd extension && yarn install && yarn compile && cd ..
+
+      - name: Rewrite and bundle
+        run: |
+          node .github/ast-grep.mjs
+          yarn esbuild extension/server/src/server.ts --outfile=lib/func.js --minify --bundle --platform=node --target=node16
+          cp extension/dist/tree-sitter.wasm lib/
+          cp extension/dist/tree-sitter-func.wasm lib/
+
+      - name: Commit changes
+        run: |
+          git add -A && git commit -a -m "Release for vscode-func:$LAST_HASH"
+          npm version minor
+
+      - name: Publish new release
+        run: npm publish
+        env:
+          NOTE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
