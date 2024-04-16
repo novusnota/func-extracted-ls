@@ -10,6 +10,7 @@
 * Definition search and go-to-definition
 * Symbol search
 * Formatting
+* Basic diagnostics
 
 ## Known issues
 

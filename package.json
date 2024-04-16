@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "func-extracted-ls",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Extracted and repackaged FunC language server (LS) from the official VSCode extension for FunC",
   "author": "Novus Nota (https://github.com/novusnota)",
   "license": "MIT",
