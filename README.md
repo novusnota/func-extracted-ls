@@ -4,6 +4,13 @@
 
 ⚙ Automatically builds upon updates in the upstream VSCode extension through Github Actions.
 
+## Features
+
+* Auto-completion
+* Definition search and go-to-definition
+* Symbol search
+* Formatting
+
 ## Known issues
 
 * Diagnostics for `#import` statements say "Dependency not found" until you open imported files at least once during your editing session.
