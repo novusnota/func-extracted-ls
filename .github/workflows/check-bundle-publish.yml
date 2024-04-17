@@ -21,11 +21,12 @@ jobs:
           if [ -z "$FETCHED_HASH" ] || [ "${#FETCHED_HASH}" -ne 40 ];
           then echo "Hash is either empty or of incorrect length"; exit 1
           fi
-          # LAST_HASH="${{ vars.LAST_HASH }}"
           if [ "$FETCHED_HASH" == "$LAST_HASH" ];
           then false # TODO: proper skip, which won't fail
           else echo "LAST_HASH=$FETCHED_HASH" >> "$GITHUB_ENV"
           fi
+        env:
+          LAST_HASH: ${{ vars.LAST_HASH }}
 
   bundle-publish:
     name: Extract and bundle the language server, then publish it
