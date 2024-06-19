@@ -1,4 +1,4 @@
-name: A workflow to prevent suspension of 60-day inactivity
+name: An experimental workflow to prevent suspension of 60-day inactivity
 on:
   schedule:
     - cron: "0 0 * * 1"  # every Monday
