@@ -1,4 +1,4 @@
-# func-extracted-ls
+# DEPRECATED! Use https://github.com/ton-blockchain/ton-language-server instead!
 
 💎 FunC language server (of LSP specification), extracted and re-packaged from its official [VSCode extension](...).
 
